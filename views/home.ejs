@@ -1,0 +1,48 @@
+<%- include('partials/head',{meta}) %>
+<%- include('partials/header') %>
+<%- include('partials/breaking',{breaking}) %>
+<main>
+  <section class="hero-section container">
+    <% if (featured) { const fimg=articleImage(featured); %>
+      <article class="hero-story">
+        <a href="/article/<%= featured.slug %>" class="hero-media">
+          <% if(fimg){ %><img src="<%= fimg %>" alt="<%= featured.title %>" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer"><% } else { %><div class="media-placeholder category-<%= featured.category.toLowerCase().replace(/[^a-z]/g,'') %>"><span><%= categoryLabel(featured.category) %></span></div><% } %>
+        </a>
+        <div class="hero-copy">
+          <div class="story-labels"><span class="eyebrow"><%= categoryLabel(featured.category) %></span><span class="ctn-label">CTN</span></div>
+          <h1><a href="/article/<%= featured.slug %>"><%= featured.title %></a></h1>
+          <p><%= featured.summary %></p>
+          <div class="meta"><%= formatDate(featured.publishedAt || featured.createdAt) %> · කියවීමට විනාඩි <%= readingTime(featured.body) %></div>
+        </div>
+      </article>
+    <% } %>
+    <aside class="latest-panel">
+      <div class="section-heading"><h2>නවතම පුවත්</h2><a href="/news?category=Latest">සියල්ල බලන්න</a></div>
+      <% latest.slice(0,7).forEach(a => { %>
+        <a class="latest-item" href="/article/<%= a.slug %>"><span><strong><%= a.title %></strong><small><%= categoryLabel(a.category) %> · <%= formatDate(a.publishedAt || a.createdAt) %></small></span></a>
+      <% }) %>
+    </aside>
+  </section>
+
+  <section class="container content-grid">
+    <div>
+      <div class="section-heading"><h2>ප්‍රධාන පුවත්</h2></div>
+      <div class="card-grid">
+        <% latest.slice(0,8).forEach(a => { const img=articleImage(a); %>
+          <article class="news-card"><a href="/article/<%= a.slug %>" class="card-media"><% if(img){ %><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="<%= img %>" alt="<%= a.title %>"><% } else { %><div class="media-placeholder compact category-<%= a.category.toLowerCase().replace(/[^a-z]/g,'') %>"><span><%= categoryLabel(a.category) %></span></div><% } %></a><div class="card-body"><span class="eyebrow"><%= categoryLabel(a.category) %></span><h3><a href="/article/<%= a.slug %>"><%= a.title %></a></h3><p><%= a.summary %></p><small><%= formatDate(a.publishedAt || a.createdAt) %></small></div></article>
+        <% }) %>
+      </div>
+    </div>
+    <aside>
+      <div class="sidebar-box"><div class="section-heading"><h2>වැඩිපුරම කියවූ</h2></div><ol class="rank-list"><% mostRead.forEach(a => { %><li><a href="/article/<%= a.slug %>"><%= a.title %></a><small>නැරඹීම් <%= a.views || 0 %></small></li><% }) %></ol></div>
+      <div class="sidebar-box source-note"><h3>CTN සංස්කරණය</h3><p>නවතම තොරතුරු සිංහලෙන් කෙටි, පැහැදිලි හා පහසුවෙන් කියවිය හැකි ආකාරයට CTN සංස්කාරක කණ්ඩායම ඉදිරිපත් කරයි.</p></div>
+    </aside>
+  </section>
+
+  <% if(videos.length){ %><section class="video-band"><div class="container"><div class="section-heading light"><h2>වීඩියෝ</h2><a href="/news?tag=Video">තවත් බලන්න</a></div><div class="video-grid"><% videos.slice(0,4).forEach(a => { const img=articleImage(a); %><a class="video-card" href="/article/<%= a.slug %>"><div class="video-thumb"><% if(img){ %><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="<%= img %>" alt=""><% } else { %><div class="media-placeholder dark"></div><% } %><span class="play">▶</span></div><strong><%= a.title %></strong><small><%= categoryLabel(a.category) %></small></a><% }) %></div></div></section><% } %>
+
+  <section class="container category-sections">
+    <% categorySections.forEach(section => { %><div class="category-block"><div class="section-heading"><h2><%= categoryLabel(section.category) %></h2><a href="/news?category=<%= encodeURIComponent(section.category) %>">තවත් <span aria-hidden="true">→</span></a></div><div class="mini-grid"><% section.articles.forEach(a=>{ %><a href="/article/<%= a.slug %>" class="mini-story"><span class="mini-kicker">CTN</span><strong><%= a.title %></strong><span><%= a.summary %></span></a><% }) %></div></div><% }) %>
+  </section>
+</main>
+<%- include('partials/footer') %>

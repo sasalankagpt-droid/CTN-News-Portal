@@ -1,0 +1,30 @@
+<%- include('../partials/head',{meta}) %>
+<div class="admin-layout">
+  <%- include('sidebar') %>
+  <main class="admin-main">
+    <div class="admin-top"><div><span class="eyebrow">ඉක්මන් මූලාශ්‍ර Import</span><h1>Hiru / Ada Derana පුවතක් Import කරන්න</h1><p class="admin-intro">පුවත් ලින්ක් එක අලවන්න. CTN විසින් headline, කෙටි description, source details හඳුනාගෙන editable draft එකක් සකස් කරයි. Source image එක public CTN අඩවියට copy හෝ hotlink නොකරයි.</p></div></div>
+    <section class="admin-card import-card">
+      <form method="post" action="/admin/import/preview" class="import-form"><label>පුවත් ලින්ක් එක<input type="url" name="sourceUrl" placeholder="https://www.hirunews.lk/... හෝ https://adaderana.lk/..." required></label><button class="button primary" type="submit">Preview බලන්න</button></form>
+      <p class="help">Hiru English ලින්ක් එකක් දුන්නත් හැකි විට සිංහල පිටුවෙන් title/summary ලබාගැනීමට පද්ධතිය උත්සාහ කරයි. සම්පූර්ණ article body එක ස්වයංක්‍රීයව copy නොකරයි; ප්‍රකාශයට පත් කිරීමට පෙර කෙටුම්පත පරීක්ෂා කරන්න.</p>
+      <% if(error){ %><div class="alert error"><%= error %></div><% } %>
+    </section>
+    <details class="admin-card manual-import"><summary>Automatic preview වැඩ නොකළොත් Manual draft එකක් සකස් කරන්න</summary><form method="post" action="/admin/import/create" class="import-create-form"><label>මුල් පුවත් URL<input type="url" name="sourceUrl" placeholder="https://..." required></label><div class="two-col"><label>මූලාශ්‍රය<select name="sourceName"><option>Hiru News</option><option>Ada Derana</option><option>Ada Derana Business</option></select></label><label>කාණ්ඩය<select name="category"><% (settings.categories||[]).filter(c=>c!=='Latest').forEach(c=>{ %><option value="<%= c %>"><%= categoryLabel(c) %></option><% }) %></select></label></div><label>ශීර්ෂය<input name="title" required></label><label>කෙටි සාරාංශය<textarea name="summary" rows="4" maxlength="360" placeholder="සිංහලෙන් කෙටි CTN සාරාංශයක් ලියන්න"></textarea></label><label>මූලාශ්‍ර දිනය/වේලාව <small>අවශ්‍ය නම්</small><input name="sourcePublishedAt" placeholder="28 සැප්තැම්බර් 2026"></label><button class="button primary" type="submit">සංස්කරණය කළ හැකි කෙටුම්පත සකස් කරන්න</button></form></details>
+    <% if(preview){ %>
+    <section class="admin-card source-preview">
+      <div class="section-heading"><h2>මූලාශ්‍ර Preview</h2><a href="<%= preview.sourceUrl %>" target="_blank" rel="noopener">මුල් පුවත බලන්න ↗</a></div>
+      <div class="source-preview-grid">
+        <div><span class="source-chip"><%= preview.sourceName %></span><h2><%= preview.title || 'ශීර්ෂය හඳුනාගත නොහැකි විය' %></h2><p><%= preview.summary || 'Description එක හඳුනාගත නොහැකි විය. Draft එක සකස් කර ඔබගේම සිංහල සාරාංශයක් එක් කළ හැක.' %></p><small><%= preview.published || 'මූලාශ්‍ර වේලාව හඳුනාගත නොහැකි විය' %></small></div>
+        
+      </div>
+      <form method="post" action="/admin/import/create" class="import-create-form">
+        <input type="hidden" name="sourceUrl" value="<%= preview.sourceUrl %>"><input type="hidden" name="sourceName" value="<%= preview.sourceName %>"><input type="hidden" name="sourcePublishedAt" value="<%= preview.published %>">
+        <label>ශීර්ෂය<input name="title" value="<%= preview.title %>" required></label>
+        <label>කෙටි සාරාංශය<textarea name="summary" rows="4" maxlength="360"><%= preview.summary %></textarea></label>
+        <label>කාණ්ඩය<select name="category"><% (settings.categories||[]).filter(c=>c!=='Latest').forEach(c=>{ %><option value="<%= c %>"><%= categoryLabel(c) %></option><% }) %></select></label>
+        <button class="button primary" type="submit">කෙටුම්පත සකස් කරන්න</button>
+      </form>
+    </section>
+    <% } %>
+  </main>
+</div>
+</body></html>

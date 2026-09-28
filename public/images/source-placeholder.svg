@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">CTN පුවත් ඡායාරූපය</title><desc id="d">මූලාශ්‍ර ඡායාරූපය ලබාගත නොහැකි විට භාවිත වන placeholder එක.</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071d35"/><stop offset="1" stop-color="#0f6b63"/></linearGradient></defs>
+  <rect width="1200" height="675" fill="url(#g)"/>
+  <circle cx="600" cy="286" r="78" fill="#fff" opacity=".12"/><text x="600" y="312" text-anchor="middle" font-size="64" font-family="Arial,sans-serif" font-weight="700" fill="#fff">CTN</text>
+  <text x="600" y="430" text-anchor="middle" font-size="34" font-family="Arial,sans-serif" fill="#dce7f3">SOURCE IMAGE</text>
+</svg>

@@ -1,0 +1,11 @@
+<aside class="admin-sidebar">
+  <a href="/admin" class="brand admin-brand"><img class="admin-logo" src="/images/ctn-logo.webp" alt="Capital Trust News"><span><strong>සංස්කාරක CMS</strong></span></a>
+  <nav>
+    <a class="<%= currentPath==='/admin'?'active':'' %>" href="/admin">පාලක පුවරුව</a>
+    <a class="<%= currentPath==='/admin/articles/new'?'active':'' %>" href="/admin/articles/new">නව පුවතක්</a>
+    <a class="<%= currentPath.startsWith('/admin/import')?'active':'' %>" href="/admin/import">පුවතක් Import කරන්න</a>
+    <a class="<%= currentPath==='/admin/settings'?'active':'' %>" href="/admin/settings">වෙබ් අඩවි සැකසුම්</a>
+    <a href="/" target="_blank" rel="noopener">වෙබ් අඩවිය බලන්න ↗</a>
+  </nav>
+  <form method="post" action="/admin/logout"><button class="sidebar-logout">ඉවත් වන්න</button></form>
+</aside>

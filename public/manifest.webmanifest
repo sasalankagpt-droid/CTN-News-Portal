@@ -1,0 +1,9 @@
+{
+  "name": "Capital Trust News",
+  "short_name": "CTN",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f6f3",
+  "theme_color": "#55b32a",
+  "icons": []
+}

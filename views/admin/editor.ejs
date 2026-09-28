@@ -1,0 +1,30 @@
+<%- include('../partials/head',{meta}) %>
+<div class="admin-layout">
+  <%- include('sidebar') %>
+  <main class="admin-main">
+    <div class="admin-top"><div><span class="eyebrow">සංස්කරණය</span><h1><%= article ? 'පුවත සංස්කරණය කරන්න' : 'නව පුවතක් සකස් කරන්න' %></h1><p class="admin-intro">ශීර්ෂය, සාරාංශය සහ සම්පූර්ණ පුවත සිංහලෙන් ලියා කාණ්ඩය තෝරා පසුව Publish කරන්න.</p></div></div>
+    <form class="editor-form" method="post" enctype="multipart/form-data" action="<%= article ? '/admin/articles/'+article.id : '/admin/articles' %>">
+      <div class="editor-grid">
+        <section class="admin-card form-main">
+          <label>පුවත් ශීර්ෂය<input name="title" id="title" value="<%= article?.title || '' %>" required></label>
+          <label>URL slug <small>හිස්ව තැබුවොත් ස්වයංක්‍රීයව සකස් වේ</small><input name="slug" id="slug" value="<%= article?.slug || '' %>" placeholder="generated-from-headline"></label>
+          <label>කෙටි සාරාංශය<textarea name="summary" rows="3" maxlength="360"><%= article?.summary || '' %></textarea></label>
+          <label>සම්පූර්ණ පුවත</label>
+          <div class="editor-toolbar" role="toolbar"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="formatBlock" data-value="h2">H2</button><button type="button" data-cmd="formatBlock" data-value="blockquote">❝</button><button type="button" data-cmd="insertUnorderedList">• ලැයිස්තුව</button><button type="button" id="addLink">Link</button></div>
+          <div id="richEditor" class="rich-editor" contenteditable="true"><%- article?.body || '<p>සම්පූර්ණ පුවත මෙතැන ලියන්න…</p>' %></div>
+          <textarea name="body" id="bodyField" hidden></textarea>
+          <div class="two-col"><label>කර්තෘ<input name="author" value="<%= article?.author || 'CTN සංස්කාරක මණ්ඩලය' %>"></label><label>කාණ්ඩය<select name="category"><% (settings.categories||[]).filter(c=>c!=='Latest').forEach(c=>{ %><option value="<%= c %>" <%= article?.category===c?'selected':'' %>><%= categoryLabel(c) %></option><% }) %></select></label></div>
+          <label>Tags <small>comma වලින් වෙන් කරන්න</small><input name="tags" value="<%= (article?.tags||[]).join(', ') %>" placeholder="ශ්‍රී ලංකාව, ක්‍රීඩා, ආර්ථිකය"></label>
+          <div class="source-editor-box"><h3>අභ්‍යන්තර මූලාශ්‍ර සටහන <span class="optional">අවශ්‍ය නම්</span></h3><p class="help">සංස්කාරකයාගේ reference සඳහා පමණි. මෙහි ඇති source නාමය/URL public CTN පුවත් පිටුවේ පෙන්වන්නේ නැත. CTN පුවත සිංහලෙන් තමන්ගේම වචනවලින් සංස්කරණය කරන්න.</p><div class="two-col"><label>මූලාශ්‍ර නාමය<input name="sourceName" value="<%= article?.sourceName || '' %>" placeholder="Hiru News"></label><label>මූලාශ්‍ර දිනය/වේලාව <small>අවශ්‍ය නම්</small><input name="sourcePublishedAt" value="<%= article?.sourcePublishedAt || '' %>" placeholder="28 සැප්තැම්බර් 2026"></label></div><label>මුල් පුවත් URL<input type="url" name="sourceUrl" value="<%= article?.sourceUrl || '' %>" placeholder="https://www.hirunews.lk/..."></label></div>
+        </section>
+        <aside class="form-side">
+          <section class="admin-card"><h3>ප්‍රකාශනය</h3><label>තත්ත්වය<select name="status" id="status"><option value="draft" <%= (article?.status||'draft')==='draft'?'selected':'' %>>කෙටුම්පත</option><option value="published" <%= article?.status==='published'?'selected':'' %>>ප්‍රකාශිත</option><option value="scheduled" <%= article?.status==='scheduled'?'selected':'' %>>නියමිත වේලාවකට</option></select></label><label>ප්‍රකාශයට පත් කරන දිනය/වේලාව<input type="datetime-local" name="scheduledAt" value="<%= article?.scheduledAt ? new Date(article.scheduledAt).toISOString().slice(0,16) : '' %>"></label><label class="check"><input type="checkbox" name="breaking" <%= article?.breaking?'checked':'' %>> උණුසුම් පුවතක්</label><label class="check"><input type="checkbox" name="featured" <%= article?.featured?'checked':'' %>> ප්‍රධාන පුවත</label><button class="button primary full" type="submit"><%= article ? 'වෙනස්කම් සුරකින්න' : 'පුවත සකස් කරන්න' %></button></section>
+          <section class="admin-card"><h3>මාධ්‍ය</h3><label>Cover image upload කරන්න<input type="file" name="coverImage" accept="image/*"></label><% if(article?.coverImage){ %><img class="admin-preview" src="<%= article.coverImage %>" alt=""><% } %><label>හෝ external image URL <small>භාවිත අවසර ඇති විට පමණි</small><input type="url" name="coverImageUrl" value="<%= article?.coverImageUrl || '' %>" placeholder="https://..."></label><% if(article?.coverImageUrl && !article?.coverImage){ %><img class="admin-preview" src="<%= article.coverImageUrl %>" alt=""><% } %><% if(!article?.coverImage && !article?.coverImageUrl){ %><p class="help">Cover image එකක් නැත්නම් CTN විසින් කාණ්ඩයට ගැළපෙන watermark-රහිත generic image එකක් පෙන්වයි.</p><% } %><label>YouTube URL<input name="videoUrl" value="<%= article?.videoUrl || '' %>" placeholder="https://youtube.com/watch?v=..."></label><label>හෝ video upload<input type="file" name="videoFile" accept="video/*"></label><label>PDF/document එකක් අමුණන්න<input type="file" name="documentFile" accept="application/pdf"></label></section>
+          <section class="admin-card"><h3>SEO සහ Social preview</h3><label>SEO title<input name="seoTitle" value="<%= article?.seoTitle || '' %>" maxlength="65"></label><label>SEO description<textarea name="seoDescription" rows="3" maxlength="170"><%= article?.seoDescription || '' %></textarea></label><p class="help">Headline, summary සහ CTN cover image එක Facebook/WhatsApp/Open Graph preview සඳහා භාවිත වේ.</p></section>
+        </aside>
+      </div>
+    </form>
+  </main>
+</div>
+<script src="/js/admin.js?v=1.3.0"></script>
+</body></html>

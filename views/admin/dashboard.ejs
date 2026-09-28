@@ -1,0 +1,23 @@
+<%- include('../partials/head',{meta}) %>
+<div class="admin-layout">
+  <%- include('sidebar') %>
+  <main class="admin-main">
+    <div class="admin-top"><div><span class="eyebrow">අන්තර්ගත කළමනාකරණය</span><h1>පාලක පුවරුව</h1><p class="admin-intro">පුවත් අතින් සකස් කරන්න හෝ Hiru/Ada Derana ලින්ක් එකක් Import කර සංස්කරණය කරන්න.</p></div><div class="admin-top-actions"><a class="button" href="/admin/import">මූලාශ්‍රයක් Import කරන්න</a><a class="button primary" href="/admin/articles/new">+ නව පුවත</a></div></div>
+    <div class="stat-grid">
+      <div class="stat-card"><span>මුළු පුවත්</span><strong><%= stats.total %></strong></div>
+      <div class="stat-card"><span>ප්‍රකාශිත</span><strong><%= stats.published %></strong></div>
+      <div class="stat-card"><span>කෙටුම්පත්</span><strong><%= stats.drafts %></strong></div>
+      <div class="stat-card"><span>නියමිත</span><strong><%= stats.scheduled %></strong></div>
+      <div class="stat-card"><span>මුළු නැරඹීම්</span><strong><%= stats.views %></strong></div>
+    </div>
+    <section class="admin-card category-health"><div class="section-heading"><h2>කාණ්ඩ ආවරණය</h2><span>හිස් හෝ අඩු පුවත් ඇති කොටස් හඳුනාගන්න.</span></div><div class="category-counts"><% stats.byCategory.forEach(x=>{ %><a href="/news?category=<%= encodeURIComponent(x.category) %>" target="_blank"><span><%= categoryLabel(x.category) %></span><strong><%= x.count %></strong></a><% }) %></div></section>
+    <section class="admin-card">
+      <div class="section-heading"><h2>පුවත්</h2><span>පුවත් පෙළ, මූලාශ්‍ර, පින්තූර සහ වීඩියෝ මෙතැනින් සංස්කරණය කරන්න.</span></div>
+      <div class="table-wrap"><table><thead><tr><th>පුවත</th><th>තත්ත්වය</th><th>විශේෂ</th><th>මූලාශ්‍රය</th><th>නැරඹීම්</th><th>යාවත්කාලීන</th><th></th></tr></thead><tbody>
+      <% articles.forEach(a=>{ %><tr><td><strong><%= a.title %></strong><small><%= categoryLabel(a.category) %> · /<%= a.slug %></small></td><td><span class="status <%= a.status %>"><%= a.status==='published'?'ප්‍රකාශිත':a.status==='draft'?'කෙටුම්පත':'නියමිත' %></span></td><td><%= a.breaking?'උණුසුම් ':'' %><%= a.featured?'ප්‍රධාන':'' %></td><td><%= a.sourceName || 'CTN' %></td><td><%= a.views||0 %></td><td><%= formatDate(a.updatedAt) %></td><td class="actions"><a href="/admin/articles/<%= a.id %>/edit">සංස්කරණය</a><a href="/article/<%= a.slug %>" target="_blank">බලන්න</a><form method="post" action="/admin/articles/<%= a.id %>/delete" onsubmit="return confirm('මෙම පුවත මකා දමන්නද?')"><button>මකන්න</button></form></td></tr><% }) %>
+      </tbody></table></div>
+    </section>
+    <section class="admin-card"><div class="section-heading"><h2>වැඩිපුරම කියවූ පුවත්</h2></div><ol class="rank-list admin-rank"><% stats.top.forEach(a=>{ %><li><span><%= a.title %></span><strong><%= a.views||0 %></strong></li><% }) %></ol></section>
+  </main>
+</div>
+</body></html>

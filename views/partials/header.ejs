@@ -1,0 +1,8 @@
+<div class="utility-bar"><div class="container utility-inner"><div class="market-ticker" aria-label="වෙළෙඳපොළ තොරතුරු"><% (settings.tickerItems || []).forEach(item => { %><span><strong><%= item.label %></strong> <%= item.value %></span><% }) %></div><div class="utility-actions"><button class="icon-btn" id="fontMinus" aria-label="අකුරු කුඩා කරන්න">A−</button><button class="icon-btn" id="fontPlus" aria-label="අකුරු විශාල කරන්න">A+</button><button class="icon-btn" id="themeToggle" aria-label="අඳුරු/ආලෝක තේමාව මාරු කරන්න">◐</button></div></div></div>
+<header class="site-header">
+  <div class="container brand-row">
+    <a href="/" class="brand brand-logo-link" aria-label="Capital Trust News මුල් පිටුව"><img class="site-logo" src="/images/ctn-logo.webp" width="520" height="282" alt="Capital Trust News"><span class="brand-tagline"><small><%= settings.tagline %></small></span></a>
+    <form action="/news" method="get" class="search-form"><input type="search" name="q" placeholder="පුවත්, සමාගම්, වාර්තා සොයන්න…" aria-label="පුවත් සොයන්න"><button type="submit">සොයන්න</button></form>
+  </div>
+  <nav class="main-nav" aria-label="ප්‍රධාන මෙනුව"><div class="container nav-scroll"><a href="/">මුල් පිටුව</a><% (settings.categories || []).forEach(cat => { %><a href="/news?category=<%= encodeURIComponent(cat) %>"><%= categoryLabel(cat) %></a><% }) %></div></nav>
+</header>

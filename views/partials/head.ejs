@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title><%= meta?.title ? meta.title + ' | ' + settings.siteName : settings.siteName %></title>
+  <meta name="description" content="<%= meta?.description || settings.tagline %>">
+  <meta name="theme-color" content="#55b32a">
+  <link rel="canonical" href="<%= siteUrl + currentPath %>">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= meta?.title || settings.siteName %>">
+  <meta property="og:description" content="<%= meta?.description || settings.tagline %>">
+  <meta property="og:url" content="<%= siteUrl + currentPath %>">
+  <% if (meta?.image) { %><meta property="og:image" content="<%= meta.image %>"><% } %>
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="CTN RSS">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preload" href="/images/ctn-logo.webp" as="image" type="image/webp">
+  <link rel="preconnect" href="https://thumb.wikimedia.org" crossorigin>
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="stylesheet" href="/css/styles.css?v=1.3.0">
+  <script defer src="/js/site.js?v=1.3.0"></script>
+</head>
+<body>

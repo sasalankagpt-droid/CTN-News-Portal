@@ -1,0 +1,12 @@
+{
+  "siteName": "Capital Trust News",
+  "siteShortName": "CTN",
+  "tagline": "වේගවත්. පැහැදිලි. විශ්වාසදායක.",
+  "tickerItems": [
+    {"label": "ASPI", "value": "20,944 · සැප්. 28"},
+    {"label": "S&P SL20", "value": "5,921 · සැප්. 28"},
+    {"label": "වෙළෙඳපොළ පිරිවැටුම", "value": "රු. බි. 0.6 · සැප්. 28"}
+  ],
+  "categories": ["Latest","Local","World","Business","Markets","Sports","Entertainment","Technology","Reports"],
+  "footerText": "Capital Trust News — ශ්‍රී ලංකාවේ සහ ලෝකයේ නවතම පුවත්, ව්‍යාපාර, වෙළෙඳපොළ, ක්‍රීඩා හා තාක්ෂණික තොරතුරු සිංහලෙන්."
+}

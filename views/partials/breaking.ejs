@@ -1,0 +1,17 @@
+<% if (breaking && breaking.length) { %>
+<section class="breaking-strip" aria-label="උණුසුම් පුවත්">
+  <div class="container breaking-inner">
+    <strong>උණුසුම් පුවත්</strong>
+    <div class="breaking-window">
+      <div class="breaking-track" id="breakingTrack">
+        <div class="breaking-group">
+          <% breaking.forEach(a => { %><a href="/article/<%= a.slug %>"><span>●</span><%= a.title %></a><% }) %>
+        </div>
+        <div class="breaking-group" aria-hidden="true">
+          <% breaking.forEach(a => { %><a tabindex="-1" href="/article/<%= a.slug %>"><span>●</span><%= a.title %></a><% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<% } %>

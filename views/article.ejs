@@ -1,0 +1,31 @@
+<%- include('partials/head',{meta}) %>
+<%- include('partials/header') %>
+<main class="container article-layout page-space">
+  <article class="article-main">
+    <div class="article-kicker"><a href="/news?category=<%= encodeURIComponent(article.category) %>"><%= categoryLabel(article.category) %></a><% if(article.breaking){ %><span class="breaking-pill">උණුසුම්</span><% } %></div>
+    <h1><%= article.title %></h1>
+    <p class="article-deck"><%= article.summary %></p>
+    <div class="article-meta">ලියුවේ <strong><%= article.author %></strong> · <%= formatDate(article.publishedAt || article.createdAt) %> · කියවීමට විනාඩි <%= readingTime(article.body) %> · නැරඹීම් <%= article.views || 0 %></div>
+
+    <div class="share-row" data-share-title="<%= article.title %>" aria-label="මෙම පුවත බෙදාගන්න">
+      <button class="share-icon facebook" data-share="facebook" aria-label="Facebook හි බෙදාගන්න" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4.5A18 18 0 0 0 14.4 4C11.8 4 10 5.6 10 8.6V11H7v4h3v7h4v-7h3l.5-4H14V8.8c0-.6.2-.8 1-.8Z"/></svg></button>
+      <button class="share-icon whatsapp" data-share="whatsapp" aria-label="WhatsApp හි බෙදාගන්න" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.5 4.1 1.6 5.9L.2 24l6.5-1.7a11.8 11.8 0 0 0 5.4 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.5-8.3Zm-8.4 18.1c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.8 9.8 0 1 1 8.5 4.7Zm5.4-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.4.2-.7.1-1.7-.9-2.9-1.6-4.1-3.6-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.6l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.3 1.4 3.6c.2.2 2.4 3.7 5.9 5.2 2.2.9 3 .9 4.1.8.7-.1 1.8-.8 2.1-1.5.3-.7.3-1.3.2-1.5-.1-.2-.5-.3-.8-.4Z"/></svg></button>
+      <button class="share-icon xshare" data-share="x" aria-label="X හි බෙදාගන්න" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.2 2H22l-8.3 9.5L23.5 22h-7.7l-6-7.9L2.9 22H-.9l8.9-10.2L-1.4 2h7.9l5.4 7.1L18.2 2Zm-1.3 18.2H19L5.4 3.7H3.1l13.8 16.5Z"/></svg></button>
+      <button class="share-icon native-share" data-share="native" aria-label="දුරකථනයෙන් බෙදාගන්න" title="Share"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.2 1L8.9 13A3 3 0 0 0 9 12c0-.3 0-.7-.2-1l6.9-4A3 3 0 1 0 15 5c0 .3 0 .7.2 1L8.3 10a3 3 0 1 0 0 4l6.9 4a3 3 0 1 0 2.8-2Z"/></svg></button>
+      <button class="share-icon copy" data-share="copy" aria-label="පුවත් සබැඳිය පිටපත් කරන්න" title="සබැඳිය පිටපත් කරන්න"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7V5a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-2v-2h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-8a1 1 0 0 0-1 1v2H8Zm-3 2h8a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3Zm0 2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H5Z"/></svg></button>
+    </div>
+
+    <% const hero=articleImage(article); if(hero){ %><figure class="article-hero-wrap"><img class="article-hero" src="<%= hero %>" alt="<%= article.title %>" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer"></figure><% } %>
+    <% if(article.videoUrl && youtubeEmbed(article.videoUrl)){ %><div class="video-embed"><iframe src="<%= youtubeEmbed(article.videoUrl) %>" title="<%= article.title %> වීඩියෝව" allowfullscreen></iframe></div><% } %>
+    <% if(article.videoFile){ %><video class="article-video" controls preload="metadata" src="<%= article.videoFile %>"></video><% } %>
+
+    <div class="article-tools"><button id="saveArticle" data-id="<%= article.slug %>">♡ පසුව කියවීමට සුරකින්න</button><button id="readAloud">🔊 පුවත අසන්න</button></div>
+    <div class="article-body" id="articleBody"><%- article.body %></div>
+
+    <% if(article.documentFile){ %><section class="document-box"><h3>අදාළ ලේඛනය</h3><iframe src="<%= article.documentFile %>" title="අදාළ PDF ලේඛනය"></iframe><a href="<%= article.documentFile %>" target="_blank" rel="noopener">ලේඛනය විවෘත කරන්න</a></section><% } %>
+    <% if((article.tags||[]).length){ %><div class="tag-row"><strong>ටැග්:</strong><% article.tags.forEach(t=>{ %><a href="/news?tag=<%= encodeURIComponent(t) %>"><%= t %></a><% }) %></div><% } %>
+  </article>
+  <aside class="article-side"><div class="sidebar-box"><h3>අදාළ පුවත්</h3><% related.forEach(a=>{ %><a class="related-link" href="/article/<%= a.slug %>"><strong><%= a.title %></strong><small><%= categoryLabel(a.category) %></small></a><% }) %></div><div class="sidebar-box"><h3>සුරකින ලද පුවත්</h3><div id="savedStories"><small>මෙම browser එකේ සුරකියි.</small></div></div></aside>
+</main>
+<script type="application/ld+json"><%- JSON.stringify({"@context":"https://schema.org","@type":"NewsArticle","headline":article.title,"datePublished":article.publishedAt||article.createdAt,"dateModified":article.updatedAt,"author":{"@type":"Organization","name":article.author},"publisher":{"@type":"Organization","name":settings.siteName},"mainEntityOfPage":siteUrl + '/article/' + article.slug,"image":articleImage(article) ? [absoluteMedia(articleImage(article))] : undefined,"description":article.summary,"inLanguage":"si-LK"}) %></script>
+<%- include('partials/footer') %>

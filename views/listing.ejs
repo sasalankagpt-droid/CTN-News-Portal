@@ -1,0 +1,10 @@
+<%- include('partials/head',{meta}) %>
+<%- include('partials/header') %>
+<main class="container page-space">
+  <div class="section-heading"><h1><%= q ? `සෙවුම: “${q}”` : tag ? `ටැගය: ${tag}` : category ? categoryLabel(category) : 'සියලු පුවත්' %></h1><span>පුවත් <%= articles.length %></span></div>
+  <div class="listing-grid">
+    <% articles.forEach(a => { const img=articleImage(a); %><article class="list-story"><a href="/article/<%= a.slug %>" class="list-media"><% if(img){ %><img loading="lazy" decoding="async" referrerpolicy="no-referrer" src="<%= img %>" alt="<%= a.title %>"><% } else { %><div class="media-placeholder compact category-<%= a.category.toLowerCase().replace(/[^a-z]/g,'') %>"><span><%= categoryLabel(a.category) %></span></div><% } %></a><div><div class="story-labels"><span class="eyebrow"><%= categoryLabel(a.category) %></span><span class="ctn-label">CTN</span></div><h2><a href="/article/<%= a.slug %>"><%= a.title %></a></h2><p><%= a.summary %></p><small><%= formatDate(a.publishedAt || a.createdAt) %> · කියවීමට විනාඩි <%= readingTime(a.body) %></small></div></article><% }) %>
+    <% if(!articles.length){ %><div class="empty-state"><h2>පුවත් හමු නොවීය</h2><p>වෙනත් කාණ්ඩයක්, ටැගයක් හෝ සෙවුම් පදයක් භාවිත කරන්න.</p></div><% } %>
+  </div>
+</main>
+<%- include('partials/footer') %>
